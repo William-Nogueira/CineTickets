@@ -3,5 +3,6 @@ CREATE TABLE Movie (
   title VARCHAR(100) NOT NULL,
   genre VARCHAR(50),
   director VARCHAR(50),
-  duration INT
+  duration INT,
+  active BOOLEAN DEFAULT TRUE
 );

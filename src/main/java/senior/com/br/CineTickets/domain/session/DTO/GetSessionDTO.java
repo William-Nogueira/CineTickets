@@ -6,10 +6,10 @@ import senior.com.br.CineTickets.domain.session.Session;
 
 import java.time.LocalDateTime;
 
-public record GetSessionDTO(long id, Movie movie, Room room, LocalDateTime startTime) {
+public record GetSessionDTO(long id, Movie movie, Room room, LocalDateTime startTime, int availableSeats) {
 
     public GetSessionDTO(Session session){
-        this(session.getId(), session.getMovie(), session.getRoom(), session.getStartTime());
+        this(session.getId(), session.getMovie(), session.getRoom(), session.getStartTime(), session.getAvailableSeats());
     }
 
 }

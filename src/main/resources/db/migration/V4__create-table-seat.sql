@@ -1,4 +1,0 @@
-CREATE TABLE Seat (
- id SERIAL PRIMARY KEY,
- room_id INT REFERENCES Room(id)
-);

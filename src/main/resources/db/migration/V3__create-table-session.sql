@@ -3,5 +3,6 @@ CREATE TABLE Session (
   movie_id INT REFERENCES Movie(id),
   room_id INT REFERENCES Room(id),
   start_time TIMESTAMP NOT NULL,
-  duration INT
+  duration INT,
+  available_seats INT
 );

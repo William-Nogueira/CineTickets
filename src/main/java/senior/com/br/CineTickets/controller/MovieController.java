@@ -19,16 +19,20 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @PostMapping
-    public ResponseEntity<GetMovieDTO> postMovie(@RequestBody @Valid PostMovieDTO dto, UriComponentsBuilder uriBuilder) {
-        var movieDto = movieService.createMovie(dto);
-        var uri = uriBuilder.path("/movie/{id}").buildAndExpand(movieDto.id()).toUri();
-        return ResponseEntity.created(uri).body(movieDto);
-    }
-
+    // Mostra todos os filmes disponíveis com paginação
     @GetMapping
     public ResponseEntity<Page<GetMovieDTO>> listActiveMovies(@PageableDefault(size = 10, sort = {"title"}) Pageable paging) {
         var page = movieService.listActiveMovies(paging);
+        return ResponseEntity.ok(page);
+    }
+
+    //Busca com filtro por título ou gênero de filmes, com paginação
+    @GetMapping("/search")
+    public ResponseEntity<Page<GetMovieDTO>> searchMoviesByTitleOrGenre(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String genre,
+            @PageableDefault(size = 10, sort = {"title"}) Pageable paging) {
+        var page = movieService.searchMoviesByTitleOrGenre(title, genre, paging);
         return ResponseEntity.ok(page);
     }
 
@@ -38,12 +42,20 @@ public class MovieController {
         return ResponseEntity.ok(movieDto);
     }
 
-    @PutMapping
-    public ResponseEntity<GetMovieDTO> updateMovie(@RequestBody @Valid GetMovieDTO dto) {
-        var movieDto = movieService.updateMovie(dto);
+    @PostMapping
+    public ResponseEntity<GetMovieDTO> postMovie(@RequestBody @Valid PostMovieDTO dto, UriComponentsBuilder uriBuilder) {
+        var movieDto = movieService.createMovie(dto);
+        var uri = uriBuilder.path("/movie/{id}").buildAndExpand(movieDto.id()).toUri();
+        return ResponseEntity.created(uri).body(movieDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<GetMovieDTO> updateMovie(@PathVariable Long id, @RequestBody GetMovieDTO dto) {
+        var movieDto = movieService.updateMovieInfo(id, dto);
         return ResponseEntity.ok(movieDto);
     }
 
+    // Delete lógico, seta o filme como inativo
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeMovie(@PathVariable Long id) {
         movieService.removeMovie(id);

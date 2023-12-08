@@ -1,6 +1,5 @@
 package senior.com.br.CineTickets.domain.session.DTO;
 
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
@@ -12,5 +11,6 @@ public record PostSessionDTO(
         long room_id,
         @NotNull
         LocalDateTime startTime,
-        int duration) {
+        int duration
+) {
 }

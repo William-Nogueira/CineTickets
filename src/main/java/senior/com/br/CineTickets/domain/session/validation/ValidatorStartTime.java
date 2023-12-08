@@ -14,4 +14,3 @@ public class ValidatorStartTime implements SessionValidator {
         }
     }
 }
-

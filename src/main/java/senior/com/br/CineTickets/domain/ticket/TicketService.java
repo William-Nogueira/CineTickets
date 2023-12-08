@@ -1,13 +1,10 @@
 package senior.com.br.CineTickets.domain.ticket;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import senior.com.br.CineTickets.domain.seat.SeatRepository;
 import senior.com.br.CineTickets.domain.session.SessionRepository;
 import senior.com.br.CineTickets.domain.ticket.DTO.GetTicketDTO;
 import senior.com.br.CineTickets.domain.ticket.DTO.PostTicketDTO;
@@ -39,10 +36,10 @@ public class TicketService {
             throw new TicketException("No available seats for this session");
         }
 
-        var ticket = new Ticket(dto.personName(), session);
-        ticketRepository.save(ticket);
-
         validator.forEach(v -> v.validate(dto));
+
+        var ticket = new TicketEntity(dto.personName(), session);
+        ticketRepository.save(ticket);
 
         return new GetTicketDTO(ticket);
     }
@@ -54,9 +51,8 @@ public class TicketService {
     }
 
     public Page<GetTicketDTO> listAllTickets(Pageable paging) {
-        var ticketsPage = ticketRepository.findAll(paging)
+        return ticketRepository.findAll(paging)
                 .map(GetTicketDTO::new);
-        return ticketsPage;
     }
 
 }

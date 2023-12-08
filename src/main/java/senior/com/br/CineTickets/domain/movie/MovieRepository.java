@@ -5,11 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Optional;
+public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
 
-public interface MovieRepository extends JpaRepository<Movie, Long> {
-
-    Page<Movie> findAllByActiveTrue(Pageable paging);
+    Page<MovieEntity> findAllByActiveTrue(Pageable paging);
 
     @Query("""
             select m.active from Movie m
@@ -17,10 +15,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
             """)
     Boolean findActiveById(Long id);
 
-    @Query("""
-            SELECT m.duration FROM Movie m
-            WHERE m.id = :id
-            """)
-    int findDurationById(Long id);
+    Page<MovieEntity> findAllByActiveTrueAndTitleContainingIgnoreCase(String name, Pageable paging);
 
+    Page<MovieEntity> findAllByActiveTrueAndGenreContainingIgnoreCase(String genre, Pageable paging);
 }

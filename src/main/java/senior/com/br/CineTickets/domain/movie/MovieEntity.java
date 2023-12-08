@@ -2,20 +2,18 @@ package senior.com.br.CineTickets.domain.movie;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import senior.com.br.CineTickets.domain.movie.DTO.GetMovieDTO;
 import senior.com.br.CineTickets.domain.movie.DTO.PostMovieDTO;
 
 @Table(name = "movie")
 @Entity(name = "Movie")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Movie {
+public class MovieEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,28 +24,12 @@ public class Movie {
     @JsonIgnore
     private boolean active;
 
-    public Movie(PostMovieDTO dto) {
+    public MovieEntity(PostMovieDTO dto) {
         this.title = dto.title();
         this.genre = dto.genre();
         this.director = dto.director();
         this.duration = dto.duration();
         this.active = true;
-    }
-
-    public void updateInfo(GetMovieDTO dto) {
-        if (dto.title() != null) {
-            this.title = dto.title();
-        } if (dto.genre() != null) {
-            this.genre = dto.genre();
-        } if (dto.director() != null) {
-            this.director = dto.genre();
-        } if (dto.duration() != 0) {
-            this.duration = dto.duration();
-        }
-    }
-
-    public void remove() {
-        this.active = false;
     }
 }
 

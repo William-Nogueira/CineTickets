@@ -4,5 +4,6 @@ CREATE TABLE Session (
   room_id INT REFERENCES Room(id),
   start_time TIMESTAMP NOT NULL,
   duration INT,
-  available_seats INT
+  available_seats INT,
+  active BOOLEAN
 );
